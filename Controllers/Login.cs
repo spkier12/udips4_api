@@ -46,6 +46,30 @@ namespace udips4_api.Controllers
             }
         }
 
+        // Change password on account
+        [HttpPost("update/key/{token}/{pass}")]
+        public bool Updatepass(string token, string pass)
+        {
+            try
+            {
+                VerifyToken checktoken = new VerifyToken();
+                Loginapi getfunccall = new Loginapi();
+                var verify = checktoken.Verify(token);
+                
+                // If it's false then our account dosn't exist and therefor you can't update a password for a non existing account
+                if (verify == "false")
+                {
+                    return false;
+                }
+                return getfunccall.Changepassword(token, pass);
+
+            } catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
+        }
+
         // Get user profil
         [HttpGet("get/key/{token}/{user}")]
         public bool Profile(string token, string user)

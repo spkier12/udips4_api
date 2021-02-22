@@ -24,7 +24,7 @@ namespace udips4_api.login
 
                 foreach(BsonDocument d in doc)
                 {
-                    if (d["name"] == user)
+                    if (d["name"].ToString().ToLower() == user.ToLower())
                     {
                         System.Diagnostics.Debug.WriteLine("We found a match for the user");
                         if (d["pass"] == hashedpass)
@@ -72,6 +72,52 @@ namespace udips4_api.login
             {
                 Console.WriteLine(e);
                 return e.ToString();
+            }
+        }
+
+        // Update current user with new password
+        public bool Changepassword(string token, string newpassword)
+        {
+            try
+            {
+                // make new user password and hash it to sha 256 and convert it to a string and same with token
+                // Token is a mix of the new hashed pass and the current token
+                string newpass_hashed = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(newpassword)));
+                string newtoken = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(token + newpass_hashed)))
+                    .Replace("+", "").Replace("/", "").Replace("!", "").Replace("#", "").Replace("¤", "")
+                    .Replace("%", "").Replace("&", "").Replace("(", "").Replace(")", "").Replace("=", "");
+
+                // Try and connect to database
+                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var db = client.GetDatabase("login");
+                var col = db.GetCollection<BsonDocument>("login");
+                var doc = col.Find(new BsonDocument()).ToList();
+
+
+                // Loop thru all accounts until you find the correct one!
+                foreach(BsonDocument d in doc)
+                {
+                    if (d["token"] == token)
+                    {
+                        var olddoc = Builders<BsonDocument>.Filter.Eq("_id", new ObjectId(d["_id"].ToString()));
+                        BsonDocument newdocument = new BsonDocument
+                            {
+                                { "name", d["name"] },
+                                { "pass", newpass_hashed},
+                                { "token", newtoken },
+                                { "role", d["role"] }
+                            };
+                        col.ReplaceOne(olddoc, newdocument);
+                        return true;
+                    }
+                }
+                
+                return false;
+
+            } catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
             }
         }
     }

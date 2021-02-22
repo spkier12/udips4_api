@@ -18,7 +18,7 @@ namespace udips4_api
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();
 
-                var alldocs = "";
+                var alldocs = "false";
 
                 foreach(BsonDocument d in doc)
                 {
