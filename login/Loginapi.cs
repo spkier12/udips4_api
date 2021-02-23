@@ -59,7 +59,8 @@ namespace udips4_api.login
                     { "name", user },
                     { "pass", hashedpass},
                     { "token", token },
-                    { "role", role }
+                    { "role", role },
+                    { "pic", "https://www.clipartmax.com/png/small/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" }
                 };
 
                 // Let's connect and use the mongo database witch is totally mongo!
@@ -106,7 +107,8 @@ namespace udips4_api.login
                                 { "name", d["name"] },
                                 { "pass", newpass_hashed},
                                 { "token", newtoken },
-                                { "role", d["role"] }
+                                { "role", d["role"] },
+                                { "pic", "https://www.clipartmax.com/png/small/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" }
                             };
                         col.ReplaceOne(olddoc, newdocument);
                         return true;
@@ -119,6 +121,49 @@ namespace udips4_api.login
             {
                 System.Diagnostics.Debug.WriteLine(e);
                 return false;
+            }
+        }
+
+        // Get profile stuff
+        public string[] GetProfile(string id)
+        {
+            try
+            {
+                // Connect to mongodb server
+                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var db = client.GetDatabase("login");
+                var col = db.GetCollection<BsonDocument>("login");
+                var doc = col.Find(new BsonDocument()).ToList();
+
+                string[] ProfileData = new string[3];
+
+                // Get all the profile stuff
+                foreach (BsonDocument d in doc)
+                {
+                    if (d["token"] == id)
+                    {
+                        /*
+                        ProfileData.Append(d["name"].ToString());
+                        ProfileData.Append(d["role"].ToString());
+                        ProfileData.Append(d["pic"].ToString());
+                        System.Diagnostics.Debug.WriteLine("Found" + ProfileData[0]);
+                        System.Diagnostics.Debug.WriteLine($"Hello {d["name"]}");
+                        */
+
+                        string[] Profile = { d["name"].ToString(), d["role"].ToString(), d["pic"].ToString() };
+
+                        return Profile;
+
+                    }
+                }
+
+                return ProfileData;
+            } 
+            catch(Exception e)
+            {
+                string[] invalidreturn = new string[1];
+                invalidreturn.Append(e.ToString());
+                return invalidreturn;
             }
         }
     }

@@ -35,7 +35,7 @@ namespace udips4_api
 
             } catch(Exception e)
             {
-                return e.ToString();
+                return "false";
             }
         }
     }

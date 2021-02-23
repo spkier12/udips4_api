@@ -19,6 +19,7 @@ namespace udips4_api.Controllers
         {
             Loginapi getapi = new Loginapi();
             var checklogin = getapi.Loginuser(user, pass);
+
             if (checklogin == "Error 404")
             {
                 return "Brukernavn / passord er feil!";
@@ -72,12 +73,26 @@ namespace udips4_api.Controllers
         }
 
         // Get user profil
-        [HttpGet("get/key/{token}/{user}")]
-        public string Profile(string token, string user)
+        [HttpGet("get/key/{token}")]
+        public string[] Profile(string token)
         {
-            if (user == "_")
-                return "You did not specificly ask for a user so here is nobody:";
-            return "You asked for a specific a user but i won't show anyone :D";
+            Loginapi getref = new Loginapi();
+            return getref.GetProfile(token);
+        }
+
+        // Check if token is valid
+        [HttpGet("valid/{token}")]
+        public bool Valid(string token)
+        {
+            VerifyToken getref = new VerifyToken();
+            var check = getref.Verify(token);
+            if (check == "false")
+            {
+                return false;
+            } else
+            {
+                return true;
+            }
         }
     }
 }
