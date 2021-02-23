@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using udips4_api;
+using udips4_api.admin;
 
 
 namespace udips4_api.Controllers
@@ -17,7 +18,17 @@ namespace udips4_api.Controllers
         [HttpPost("restart/{token}/{service}")]
         public bool RestartService(string token, string service)
         {
-            return true;
+            VerifyToken getref = new VerifyToken();
+            Admin getref2 = new Admin();
+            var checktoken = getref.Verify(token);
+            if (checktoken == "owner")
+            {
+                getref2.Restartservice();
+                return true;
+            } else
+            {
+                return false;
+            }
         }
 
         // Update settings
@@ -25,6 +36,14 @@ namespace udips4_api.Controllers
         public bool UpdateSettings(string token)
         {
             return false;
+        }
+
+        // Get the time when the api started
+        [HttpGet("startup")]
+        public string Startup()
+        {
+            Startup_Time getref = new Startup_Time();
+            return getref.StartTimeOfApplication;
         }
     }
 }

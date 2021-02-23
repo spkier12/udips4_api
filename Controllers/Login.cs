@@ -63,7 +63,8 @@ namespace udips4_api.Controllers
                 }
                 return getfunccall.Changepassword(token, pass);
 
-            } catch(Exception e)
+            } 
+            catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
                 return false;
@@ -72,9 +73,11 @@ namespace udips4_api.Controllers
 
         // Get user profil
         [HttpGet("get/key/{token}/{user}")]
-        public bool Profile(string token, string user)
+        public string Profile(string token, string user)
         {
-            return false;
+            if (user == "_")
+                return "You did not specificly ask for a user so here is nobody:";
+            return "You asked for a specific a user but i won't show anyone :D";
         }
     }
 }

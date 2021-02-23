@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
+using udips4_api;
 
 namespace udips4_api
 {
@@ -54,6 +56,11 @@ namespace udips4_api
             {
                 endpoints.MapControllers();
             });
+
+            // Automaticly start functions that are supposed to run in background
+            ChangeToken getref = new ChangeToken();
+            Thread ResetToken = new Thread(new ThreadStart(getref.StartTokenTimer));
+            ResetToken.Start();
         }
     }
 }

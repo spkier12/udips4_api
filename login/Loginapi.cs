@@ -22,6 +22,7 @@ namespace udips4_api.login
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();
 
+                // Loops thru the entire array ov bsondocuments until it find a match with both pass and name
                 foreach(BsonDocument d in doc)
                 {
                     if (d["name"].ToString().ToLower() == user.ToLower())
