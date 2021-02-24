@@ -15,7 +15,7 @@ namespace udips4_api
         public void StartTokenTimer()
         {
             System.Diagnostics.Debug.WriteLine("Reseting token every 2 hour");
-            Thread.Sleep(120*1000);
+            Thread.Sleep(120*60*1000);
             DailyChangeToken();
         }
 
@@ -44,7 +44,8 @@ namespace udips4_api
                             { "name", d["name"] },
                             { "pass", d["pass"]},
                             { "token", newtoken },
-                            { "role", d["role"] }
+                            { "role", d["role"] },
+                            { "pic", d["pic"] }
                         };
 
                     col.ReplaceOne(olddoc, newdoc);

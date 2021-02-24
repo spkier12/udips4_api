@@ -33,7 +33,7 @@ namespace udips4_api
 
                 return alldocs;
 
-            } catch(Exception e)
+            } catch
             {
                 return "false";
             }

@@ -48,8 +48,8 @@ namespace udips4_api.Controllers
         }
 
         // Change password on account
-        [HttpPost("update/key/{token}/{pass}")]
-        public bool Updatepass(string token, string pass)
+        [HttpPost("update/key/{token}/{pass}/{image}")]
+        public bool Updatepass(string token, string pass, string image)
         {
             try
             {
@@ -62,8 +62,7 @@ namespace udips4_api.Controllers
                 {
                     return false;
                 }
-                return getfunccall.Changepassword(token, pass);
-
+                return getfunccall.Changepassword(token, pass, image);
             } 
             catch(Exception e)
             {

@@ -68,8 +68,8 @@ namespace udips4_api.login
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("login");
                 col.InsertOne(newuser);
-
                 return $"Account sucesfully made: {newuser}";
+
             } catch(Exception e)
             {
                 Console.WriteLine(e);
@@ -77,8 +77,8 @@ namespace udips4_api.login
             }
         }
 
-        // Update current user with new password
-        public bool Changepassword(string token, string newpassword)
+        // Update current user with new password or profile pic
+        public bool Changepassword(string token, string newpassword, string image)
         {
             try
             {
@@ -95,7 +95,6 @@ namespace udips4_api.login
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();
 
-
                 // Loop thru all accounts until you find the correct one!
                 foreach(BsonDocument d in doc)
                 {
@@ -108,15 +107,13 @@ namespace udips4_api.login
                                 { "pass", newpass_hashed},
                                 { "token", newtoken },
                                 { "role", d["role"] },
-                                { "pic", "https://www.clipartmax.com/png/small/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png" }
+                                { "pic", image }
                             };
                         col.ReplaceOne(olddoc, newdocument);
                         return true;
                     }
                 }
-                
                 return false;
-
             } catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
@@ -142,27 +139,17 @@ namespace udips4_api.login
                 {
                     if (d["token"] == id)
                     {
-                        /*
-                        ProfileData.Append(d["name"].ToString());
-                        ProfileData.Append(d["role"].ToString());
-                        ProfileData.Append(d["pic"].ToString());
-                        System.Diagnostics.Debug.WriteLine("Found" + ProfileData[0]);
-                        System.Diagnostics.Debug.WriteLine($"Hello {d["name"]}");
-                        */
-
-                        string[] Profile = { d["name"].ToString(), d["role"].ToString(), d["pic"].ToString() };
-
+                        string[] Profile = { d["name"].ToString(), d["role"].ToString(), d["token"].ToString(), d["pic"].ToString() };
                         return Profile;
-
                     }
                 }
-
                 return ProfileData;
             } 
             catch(Exception e)
             {
                 string[] invalidreturn = new string[1];
                 invalidreturn.Append(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 return invalidreturn;
             }
         }
