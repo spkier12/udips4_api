@@ -18,16 +18,17 @@ namespace udips4_api.journal
                 var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("journals");
-                var newuser = new BsonDocument 
+                var time = DateTime.Now;
+
+                var newuser = new BsonDocument
                 {
+                    { "Added", time },
                     { "name", name },
                     { "birth", birthdate },
                     { "incident", "" }
                 };
 
                 col.InsertOne(newuser);
-
-
                 return true;
             } 
             catch
@@ -37,7 +38,7 @@ namespace udips4_api.journal
         }
 
         // Get all journals in database
-        public string GetJournals()
+        public string GetJournalsName()
         {
             try
             {
@@ -49,15 +50,41 @@ namespace udips4_api.journal
 
                 foreach(BsonDocument d in getdocs)
                 {
-                    All += d["name"] + "\n";
+                    All += d["Added"].ToString().Split(":")[0] + " " + d["name"].ToString() + "<br>";
                 }
-
                 return All;
-            } 
+            }
             catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
                 return "Kunne ikke finne noen i database...";
+            }
+        }
+
+        // Get Incident reports on journal profiles
+        public string GetJournalIncident(string id)
+        {
+            try
+            {
+                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var db = client.GetDatabase("login");
+                var col = db.GetCollection<BsonDocument>("journals");
+                var doc = col.Find(new BsonDocument()).ToList();
+
+                foreach(BsonDocument d in doc)
+                {
+                    if (d["name"] == id)
+                    {
+                        return d["incident"].ToString();
+                    }
+                }
+
+                return "";
+            } 
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return "";
             }
         }
 

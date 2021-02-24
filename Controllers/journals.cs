@@ -14,12 +14,6 @@ namespace udips4_api.Controllers
     [ApiController]
     public class journals : ControllerBase
     {
-        // Get journal of user
-        [HttpGet("profile/{token}/{journalid}")]
-        public bool GetJournal(string token, string journalid)
-        {
-            return false;
-        }
 
         // Create new journal
         [HttpPost("create/{token}/{journalname}/{birthdate}")]
@@ -36,7 +30,7 @@ namespace udips4_api.Controllers
 
         // Get All journals
         [HttpGet("GetAll/{token}")]
-        public string UpdateJournal(string token)
+        public string GetJournals(string token)
         {
             Journals getref = new Journals();
             VerifyToken getref2 = new VerifyToken();
@@ -45,7 +39,19 @@ namespace udips4_api.Controllers
             // Check if token is valid or not
             if (checktoken == "false") return "";
 
-            return getref.GetJournals();
+            return getref.GetJournalsName();
+        }
+
+        // Get incident report on journal
+        [HttpGet("incident/key/{token}/{id}")]
+        public string GetIncident(string token, string id)
+        {
+            Journals getref = new Journals();
+            VerifyToken getref2 = new VerifyToken();
+            var checktoken = getref2.Verify(token);
+            if (checktoken == "false") return "";
+
+            return getref.GetJournalIncident(id);
         }
     }
 }
