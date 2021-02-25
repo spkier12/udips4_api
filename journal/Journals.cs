@@ -111,5 +111,41 @@ namespace udips4_api.journal
             }
         }
 
+        // Update journal content
+        public string UpdateJournal(string incident, string id)
+        {
+            try
+            {
+                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var db = client.GetDatabase("login");
+                var col = db.GetCollection<BsonDocument>("journals");
+                var doc = col.Find(new BsonDocument()).ToList();
+
+                foreach(BsonDocument d in doc)
+                {
+                    if (d["name"] == id)
+                    {
+                        var olddoc = Builders<BsonDocument>.Filter.Eq("_id", new ObjectId(d["_id"].ToString()));
+
+                        BsonDocument newdoc = new BsonDocument 
+                        {
+                            { "Added", d["Added"] },
+                            { "name", d["name"] },
+                            { "birth", d["birth"] },
+                            { "incident", d["incident"] + "<br>" + incident + "<br>"}
+                        };
+
+                        // Let's replace the document with new
+                        col.ReplaceOne(olddoc, newdoc);
+                    }
+                }
+
+                return "";
+            } catch
+            {
+                return "Error in updating";
+            }
+        }
+
     }
 }

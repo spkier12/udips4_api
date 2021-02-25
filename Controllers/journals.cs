@@ -4,16 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
 using udips4_api;
 using udips4_api.journal;
 
 
 namespace udips4_api.Controllers
+
 {
     [Route("api/[controller]")]
     [ApiController]
     public class journals : ControllerBase
     {
+        public string UpdateData { get; set; }
 
         // Create new journal
         [HttpPost("create/{token}/{journalname}/{birthdate}")]
@@ -66,6 +69,18 @@ namespace udips4_api.Controllers
             if (checktoken == "false") return "";
 
             return getref.GetJournalIncident(id);
+        }
+
+        // Update the journal of the person as a post request
+        [HttpPost("updatejournal/{token}/{id}")]
+        public string Update(string token, string id, [FromBody] string da)
+        {
+            VerifyToken getref = new VerifyToken();
+            Journals getref2 = new Journals();
+            var verify = getref.Verify(token);
+            if (verify == "false") return "No valid token!!";
+
+            return getref2.UpdateJournal(da, id);
         }
     }
 }
