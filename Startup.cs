@@ -47,7 +47,7 @@ namespace udips4_api
         {
 
 
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseDeveloperExceptionPage();
             app.UseSwagger();

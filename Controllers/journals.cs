@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Text.Json;
 using udips4_api;
 using udips4_api.journal;
 
@@ -12,6 +13,14 @@ using udips4_api.journal;
 namespace udips4_api.Controllers
 
 {
+
+    public class UserModel
+    {
+        public string UserUpdateText { get; set; }
+    }
+
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class journals : ControllerBase
@@ -73,14 +82,18 @@ namespace udips4_api.Controllers
 
         // Update the journal of the person as a post request
         [HttpPost("updatejournal/{token}/{id}")]
-        public string Update(string token, string id, [FromBody] string da)
+        public void Update(string token, string id, [FromBody] UserModel da)
         {
             VerifyToken getref = new VerifyToken();
             Journals getref2 = new Journals();
             var verify = getref.Verify(token);
-            if (verify == "false") return "No valid token!!";
+            if (verify == "false")
+            {
+            } else
+            {
+                getref2.UpdateJournal(da.UserUpdateText, id);
+            }
 
-            return getref2.UpdateJournal(da, id);
         }
     }
 }

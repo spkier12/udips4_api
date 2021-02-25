@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -112,7 +113,7 @@ namespace udips4_api.journal
         }
 
         // Update journal content
-        public string UpdateJournal(string incident, string id)
+        public void UpdateJournal(string incident, string id)
         {
             try
             {
@@ -140,10 +141,8 @@ namespace udips4_api.journal
                     }
                 }
 
-                return "";
             } catch
             {
-                return "Error in updating";
             }
         }
 
