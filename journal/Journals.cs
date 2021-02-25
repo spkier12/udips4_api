@@ -50,11 +50,34 @@ namespace udips4_api.journal
 
                 foreach(BsonDocument d in getdocs)
                 {
-                    All += d["Added"].ToString().Split(":")[0] + " " + d["name"].ToString() + "<br>";
+                    All += "<br>" + d["Added"].ToString().Split(":")[0]  + "|" + d["name"].ToString() + "<br>";
                 }
                 return All;
             }
             catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return "Kunne ikke finne noen i database...";
+            }
+        }
+
+        public string GetJournalsName2()
+        {
+            try
+            {
+                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var db = client.GetDatabase("login");
+                var col = db.GetCollection<BsonDocument>("journals");
+                var getdocs = col.Find(new BsonDocument()).ToList();
+                string All = null;
+
+                foreach (BsonDocument d in getdocs)
+                {
+                    All += "<br>" + d["name"].ToString() + "<br>";
+                }
+                return All;
+            }
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
                 return "Kunne ikke finne noen i database...";

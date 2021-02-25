@@ -28,7 +28,7 @@ namespace udips4_api.Controllers
             return getref2.CreateUser(journalname, birthdate);
         }
 
-        // Get All journals
+        // Get All journals including time it was created
         [HttpGet("GetAll/{token}")]
         public string GetJournals(string token)
         {
@@ -40,6 +40,20 @@ namespace udips4_api.Controllers
             if (checktoken == "false") return "";
 
             return getref.GetJournalsName();
+        }
+
+        // Get All journals name exincluding time it was created
+        [HttpGet("GetAllName/{token}")]
+        public string GetJournals2(string token)
+        {
+            Journals getref = new Journals();
+            VerifyToken getref2 = new VerifyToken();
+            var checktoken = getref2.Verify(token);
+
+            // Check if token is valid or not
+            if (checktoken == "false") return "";
+
+            return getref.GetJournalsName2();
         }
 
         // Get incident report on journal
