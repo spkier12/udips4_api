@@ -71,7 +71,7 @@ namespace udips4_api.Controllers
             }
         }
 
-        // Get user profil
+        // Get user profil for provided token
         [HttpGet("get/key/{token}")]
         public string[] Profile(string token)
         {
