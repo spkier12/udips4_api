@@ -81,16 +81,16 @@ namespace udips4_api.Controllers
 
         // Check if token is valid
         [HttpGet("valid/{token}")]
-        public bool Valid(string token)
+        public string Valid(string token)
         {
             VerifyToken getref = new VerifyToken();
             var check = getref.Verify(token);
             if (check == "false")
             {
-                return false;
+                return "false";
             } else
             {
-                return true;
+                return check;
             }
         }
     }
