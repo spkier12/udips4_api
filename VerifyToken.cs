@@ -25,10 +25,8 @@ namespace udips4_api
                     if (d["token"] == token)
                     {
                         System.Diagnostics.Debug.WriteLine($"{d["token"]} We found a match!!");
-                        return d["role"].ToString();
+                        return $"User: {d["name"]} has {d["role"]} role";
                     }
-                    System.Diagnostics.Debug.WriteLine(d);
-                    //alldocs += d;
                 }
 
                 return alldocs;
