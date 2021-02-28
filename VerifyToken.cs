@@ -13,7 +13,7 @@ namespace udips4_api
         {
             try
             {
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();

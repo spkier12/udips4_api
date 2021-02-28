@@ -17,7 +17,7 @@ namespace udips4_api.login
             try
             {
                 var hashedpass = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(pass)));
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();
@@ -64,11 +64,11 @@ namespace udips4_api.login
                 };
 
                 // Let's connect and use the mongo database witch is totally mongo!
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("login");
                 col.InsertOne(newuser);
-                return $"Account sucesfully made: {newuser}";
+                return $"Account sucesfully made: {newuser} Password: {pass}";
 
             } catch(Exception e)
             {
@@ -90,7 +90,7 @@ namespace udips4_api.login
                     .Replace("%", "").Replace("&", "").Replace("(", "").Replace(")", "").Replace("=", "");
 
                 // Try and connect to database
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();
@@ -127,7 +127,7 @@ namespace udips4_api.login
             try
             {
                 // Connect to mongodb server
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("login");
                 var doc = col.Find(new BsonDocument()).ToList();
@@ -152,6 +152,22 @@ namespace udips4_api.login
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return invalidreturn;
             }
+        }
+
+        public string GetAllProfiles()
+        {
+            var client = new MongoClient("mongodb://23.94.134.205");
+            var db = client.GetDatabase("login");
+            var col = db.GetCollection<BsonDocument>("login");
+            var doc = col.Find(new BsonDocument()).ToList();
+            string profiles = null;
+
+            foreach(BsonDocument d in doc)
+            {
+                profiles += "<br>" + d["name"] + "<br>";
+            }
+
+            return profiles;
         }
     }
 }

@@ -93,5 +93,12 @@ namespace udips4_api.Controllers
                 return check;
             }
         }
+
+        [HttpGet("getall")]
+        public string GetProfiles()
+        {
+            Loginapi getref = new Loginapi();
+            return getref.GetAllProfiles();
+        }
     }
 }

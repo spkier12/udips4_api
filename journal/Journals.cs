@@ -12,11 +12,11 @@ namespace udips4_api.journal
     {
 
         // Create a new journal in database
-        public bool CreateUser(string name, string birthdate)
+        public bool CreateUser(string name, string birthdate, string bloodtype)
         {
             try
             {
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var time = DateTime.Now;
@@ -26,6 +26,7 @@ namespace udips4_api.journal
                     { "Added", time },
                     { "name", name },
                     { "birth", birthdate },
+                    { "blodtype", birthdate },
                     { "incident", "" }
                 };
 
@@ -43,7 +44,7 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var getdocs = col.Find(new BsonDocument()).ToList();
@@ -51,7 +52,7 @@ namespace udips4_api.journal
 
                 foreach(BsonDocument d in getdocs)
                 {
-                    All += "<br>" + d["Added"].ToString().Split(":")[0]  + "|" + d["name"].ToString() + "<br>";
+                    All += "<br>" + "Blodtype:" + d["blodtype"] + " " + d["Added"].ToString().Split(":")[0]  + "|" + d["name"].ToString() + "<br>";
                 }
                 return All;
             }
@@ -66,7 +67,7 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var getdocs = col.Find(new BsonDocument()).ToList();
@@ -90,7 +91,7 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var doc = col.Find(new BsonDocument()).ToList();
@@ -117,7 +118,7 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://ulrik:ly68824@ubsky.xyz");
+                var client = new MongoClient("mongodb://23.94.134.205");
                 var db = client.GetDatabase("login");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var doc = col.Find(new BsonDocument()).ToList();
@@ -133,6 +134,7 @@ namespace udips4_api.journal
                             { "Added", d["Added"] },
                             { "name", d["name"] },
                             { "birth", d["birth"] },
+                            { "blodtype", d["blodtype"] },
                             { "incident", d["incident"] + "<br>" + incident + "<br>"}
                         };
 
