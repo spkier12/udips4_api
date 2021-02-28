@@ -28,8 +28,8 @@ namespace udips4_api.Controllers
         public string UpdateData { get; set; }
 
         // Create new journal
-        [HttpPost("create/{token}/{journalname}/{birthdate}")]
-        public bool CreateJournal(string token, string journalname, string birthdate)
+        [HttpPost("create/{token}/{journalname}/{birthdate}/{blood}")]
+        public bool CreateJournal(string token, string journalname, string birthdate, string bloodtype)
         {
             VerifyToken getref = new VerifyToken();
             Journals getref2 = new Journals();
@@ -37,7 +37,7 @@ namespace udips4_api.Controllers
             var checktoken = getref.Verify(token);
             if (checktoken == "false") return false;
 
-            return getref2.CreateUser(journalname, birthdate);
+            return getref2.CreateUser(journalname, birthdate, bloodtype);
         }
 
         // Get All journals including time it was created
