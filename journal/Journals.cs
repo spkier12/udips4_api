@@ -26,7 +26,7 @@ namespace udips4_api.journal
                     { "Added", time },
                     { "name", name },
                     { "birth", birthdate },
-                    { "blodtype", birthdate },
+                    { "blodtype", bloodtype },
                     { "incident", "" }
                 };
 

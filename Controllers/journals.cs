@@ -28,7 +28,7 @@ namespace udips4_api.Controllers
         public string UpdateData { get; set; }
 
         // Create new journal
-        [HttpPost("create/{token}/{journalname}/{birthdate}/{blood}")]
+        [HttpPost("create/{token}/{journalname}/{birthdate}/{bloodtype}")]
         public bool CreateJournal(string token, string journalname, string birthdate, string bloodtype)
         {
             VerifyToken getref = new VerifyToken();
