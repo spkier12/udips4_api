@@ -164,7 +164,7 @@ namespace udips4_api.login
 
             foreach(BsonDocument d in doc)
             {
-                profiles += "<br>" + d["name"] + "<br>";
+                profiles += $"<br> {d["name"]} | {d["role"]} | {d["token"]} <br>";
             }
 
             return profiles;
