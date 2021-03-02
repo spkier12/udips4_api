@@ -16,8 +16,8 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://23.94.134.205");
-                var db = client.GetDatabase("login");
+                var client = new MongoClient("mongodb://ub:ly68824ub@23.94.134.205:10000");
+                var db = client.GetDatabase("udips4");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var time = DateTime.Now;
 
@@ -44,8 +44,8 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://23.94.134.205");
-                var db = client.GetDatabase("login");
+                var client = new MongoClient("mongodb://ub:ly68824ub@23.94.134.205:10000");
+                var db = client.GetDatabase("udips4");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var getdocs = col.Find(new BsonDocument()).ToList();
                 string All = null;
@@ -67,8 +67,8 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://23.94.134.205");
-                var db = client.GetDatabase("login");
+                var client = new MongoClient("mongodb://ub:ly68824ub@23.94.134.205:10000");
+                var db = client.GetDatabase("udips4");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var getdocs = col.Find(new BsonDocument()).ToList();
                 string All = null;
@@ -91,8 +91,8 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://23.94.134.205");
-                var db = client.GetDatabase("login");
+                var client = new MongoClient("mongodb://ub:ly68824ub@23.94.134.205:10000");
+                var db = client.GetDatabase("udips4");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var doc = col.Find(new BsonDocument()).ToList();
 
@@ -118,8 +118,8 @@ namespace udips4_api.journal
         {
             try
             {
-                var client = new MongoClient("mongodb://23.94.134.205");
-                var db = client.GetDatabase("login");
+                var client = new MongoClient("mongodb://ub:ly68824ub@23.94.134.205:10000");
+                var db = client.GetDatabase("udips4");
                 var col = db.GetCollection<BsonDocument>("journals");
                 var doc = col.Find(new BsonDocument()).ToList();
 
