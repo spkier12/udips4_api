@@ -95,5 +95,19 @@ namespace udips4_api.Controllers
             }
 
         }
+
+        // Update the journal with new bloodtype
+        [HttpPost("updatebloodtype/{token}/{bloodtype}/{id}")]
+        public bool UpdateBloodtype(string token, string bloodtype, string id)
+        {
+            Journals getref = new Journals();
+            VerifyToken getref2 = new VerifyToken();
+
+            // Verify ourself to the database
+            var vrf = getref2.Verify(token);
+            if (vrf == "false") return false;
+
+            return getref.UpdateBloodTypeJournal(id, bloodtype);
+        }
     }
 }

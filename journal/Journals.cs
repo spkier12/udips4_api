@@ -52,7 +52,7 @@ namespace udips4_api.journal
 
                 foreach(BsonDocument d in getdocs)
                 {
-                    All += "<br>" + "Blodtype:" + d["blodtype"] + " " + d["Added"].ToString().Split(":")[0]  + "|" + d["name"].ToString() + "<br>";
+                    All += "<br>" + "Fødselsdato"+ d["birth"] + "Blodtype:" + d["blodtype"] + " " + d["Added"].ToString().Split(":")[0]  + "|" + d["name"].ToString() + "<br>";
                 }
                 return All;
             }
@@ -145,6 +145,43 @@ namespace udips4_api.journal
 
             } catch
             {
+            }
+        }
+
+        // Update journal with new bloodtype
+        public bool UpdateBloodTypeJournal(string id, string bloodtype)
+        {
+            try
+            {
+                var client = new MongoClient("mongodb://ub:ly68824ub@23.94.134.205:10000");
+                var db = client.GetDatabase("udips4");
+                var col = db.GetCollection<BsonDocument>("journals");
+                var doc = col.Find(new BsonDocument()).ToList();
+
+                foreach(BsonDocument d in doc)
+                {
+                    if (d["name"] == id)
+                    {
+                        var olddoc = Builders<BsonDocument>.Filter.Eq("_id", new ObjectId(d["_id"].ToString()));
+                        var newdoc = new BsonDocument 
+                        {
+                            { "Added", d["Added"] },
+                            { "name", d["name"] },
+                            { "birth", d["birth"] },
+                            { "blodtype", bloodtype },
+                            { "incident", d["incident"]}
+                        };
+
+                        col.ReplaceOne(olddoc, newdoc);
+                        return true;
+                    }
+                }
+
+                return false;
+            } catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return false;
             }
         }
 
