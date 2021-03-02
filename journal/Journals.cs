@@ -52,7 +52,7 @@ namespace udips4_api.journal
 
                 foreach(BsonDocument d in getdocs)
                 {
-                    All += "<br>" + "Fødselsdato"+ d["birth"] + "Blodtype:" + d["blodtype"] + " " + d["Added"].ToString().Split(":")[0]  + "|" + d["name"].ToString() + "<br>";
+                    All += "<br>" + "Fødselsdato " + d["birth"] + "Blodtype: " + d["blodtype"] + " " + d["Added"].ToString().Split(":")[0]  + "|" + " " + d["name"].ToString() + "<br>";
                 }
                 return All;
             }
