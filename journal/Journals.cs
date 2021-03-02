@@ -52,7 +52,7 @@ namespace udips4_api.journal
 
                 foreach(BsonDocument d in getdocs)
                 {
-                    All += $"<br><p>\nNavn: {d["name"]} \n Lagt til: {d["Added"]} \n Blodtype: {d["blodtype"]} \n FødselsDato: {d["birth"]}</p><br>";
+                    All += $"<p class='form-select'>Navn: {d["name"]} \n Lagt til: {d["Added"]} \n Blodtype: {d["blodtype"]} \n FødselsDato: {d["birth"]}</p><br>";
                 }
                 return All;
             }
